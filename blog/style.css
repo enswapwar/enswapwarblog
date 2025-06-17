@@ -102,4 +102,23 @@ main {
   opacity: 1;
   pointer-events: all;
 }
+/* 画面を覆う黒フェード */
+#fadeout {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  opacity: 1;
+  pointer-events: all;
+  transition: opacity 0.7s ease;
+  z-index: 9999;
+}
+
+/* 非表示状態（フェードアウト後） */
+#fadeout.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
 
