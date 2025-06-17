@@ -4,8 +4,69 @@
   <link rel="icon" type="image/png" href="https://enswapwar.github.io/enswapwarblog/blog/favicon.ico">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>profile〜プロフィール</title>
-  <link rel="stylesheet" href="style.css">
+  <title>profile - enswapwar</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Courier New", monospace;
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+    header {
+      background: #1f1f1f;
+      padding: 0.5em;
+    }
+    .status-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1em;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.9em;
+    }
+    .status-bar li {
+      background: #333;
+      padding: 0.4em 0.8em;
+      border-radius: 0.3em;
+    }
+    .sidebar {
+      width: 200px;
+      background: #1a1a1a;
+      padding: 1em;
+      position: fixed;
+      top: 3em;
+      bottom: 0;
+      left: 0;
+    }
+    .sidebar nav ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar nav li {
+      margin-bottom: 1em;
+    }
+    .sidebar nav a {
+      color: #00ffff;
+      text-decoration: none;
+    }
+    main {
+      margin-left: 220px;
+      padding: 2em;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 0.5em;
+      color: #ffd700;
+    }
+    p {
+      margin-bottom: 1em;
+      line-height: 1.6em;
+    }
+    #fadeout {
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -17,10 +78,11 @@
       <li>バグと格闘中</li>
     </ul>
   </header>
+
   <aside class="sidebar">
     <nav>
       <ul>
-      <li><a href="https://mikann-server.f5.si/blog/">ホーム</a></li>
+        <li><a href="https://mikann-server.f5.si/blog/">ホーム</a></li>
         <li><a href="https://mikann-server.f5.si/blog/profile.html">プロフィール</a></li>
         <li><a href="https://mikann-server.f5.si/blog/the_work.html">作品一覧</a></li>
         <li><a href="javascript:alert('coming soon!!! 6月24日に公開予定！');location.reload();">学んだこと</a></li>
@@ -28,12 +90,17 @@
       </ul>
     </nav>
   </aside>
+
   <main>
-    <h1>〜プロフィール〜profile〜</h1>
-    <p>2012年7月31日生まれのpythonやjsとかhtmlとか学びたいガキ、SNSとか活動しているのはnote、niconico(動画、生配信)</p>
-    <p></p>
-    <p>最近疲れてばっか、部活は個人情報かもしれないので言わない、言えることは入っていることだけ。学校はあまり。</p>
+    <h1>enswapwar - プロフィール</h1>
+    <p>2012年7月31日生まれ。JS、HTML、Pythonあたりをつまみ食いしてる小僧。</p>
+    <p>出没先は <strong>note</strong> と <strong>ニコニコ（動画・生放送）</strong>。思いついたら即投稿、気分で活動。</p>
+    <p>部活の内容は秘密主義。入ってるってことだけ言っておく。<br>
+    学校？まぁ……元気に生きてる。</p>
+    <p>最近はバグと生活とメンタルと戦ってる感じ。<br>でも、コード書いてる時だけは世界が止まってる。</p>
+    <p>——何ができるか、より、何をやったか。</p>
   </main>
+
   <div id="fadeout"></div>
   <script src="script.js"></script>
 </body>
