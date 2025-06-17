@@ -1,124 +1,105 @@
 /* 全体リセット */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-body {
-  display: flex;
-  font-family: "Segoe UI", sans-serif;
-  height: 100vh;
-  overflow: hidden;
-}
+    body {
+      display: flex;
+      font-family: "Segoe UI", sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-/* サイドバー */
-.sidebar {
-  width: 180px;
-  background-color: #0f0;
-  padding: 16px;
-}
+    /* サイドバー */
+    .sidebar {
+      width: 180px;
+      background-color: #0f0;
+      padding: 16px;
+    }
 
-/* 左のリンクリスト全体に上マージン5cm */
-.sidebar nav ul {
-  margin-top: 5cm;
-}
+    .sidebar nav ul {
+      margin-top: 5cm;
+    }
 
-.sidebar ul {
-  list-style: none;
-}
+    .sidebar ul {
+      list-style: none;
+    }
 
-.sidebar li {
-  margin-bottom: 12px;
-}
+    .sidebar li {
+      margin-bottom: 12px;
+    }
 
-.sidebar a {
-  text-decoration: none;
-  color: #000;
-  font-weight: bold;
-  transition: background-color 0.3s, color 0.3s;
-  padding: 6px 8px;
-  display: inline-block;
-  border-radius: 4px;
-}
+    .sidebar a {
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+      transition: background-color 0.3s, color 0.3s;
+      padding: 6px 8px;
+      display: inline-block;
+      border-radius: 4px;
+    }
 
-.sidebar a:hover {
-  background-color: #b0ffb0; /* 明るい緑 */
-  color: #000;
-}
+    .sidebar a:hover {
+      background-color: #b0ffb0;
+      color: #000;
+    }
 
-/* ヘッダー（ステータスバー） */
-header {
-  position: fixed;
-  top: 0;
-  left: 180px;
-  right: 0;
-  height: 60px;
-  background-color: #ff0;
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
-  z-index: 1000;
-}
+    /* ヘッダー */
+    header {
+      position: fixed;
+      top: 0;
+      left: 180px;
+      right: 0;
+      height: 60px;
+      background-color: #ff0;
+      display: flex;
+      align-items: center;
+      padding-left: 20px;
+      z-index: 1000;
+    }
 
-.status-bar {
-  list-style: none;
-  display: flex;
-  gap: 24px;
-  margin-left: 5cm; /* 左に5cmの余白 */
-}
+    .status-bar {
+      list-style: none;
+      display: flex;
+      gap: 24px;
+      margin-left: 5cm;
+    }
 
-.status-bar li {
-  font-weight: bold;
-  padding: 6px 10px;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
-}
+    .status-bar li {
+      font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 4px;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-.status-bar li:hover {
-  background-color: #fff176; /* 明るい黄色 */
-  color: #000;
-}
+    .status-bar li:hover {
+      background-color: #fff176;
+      color: #000;
+    }
 
-/* メインエリア */
-main {
-  margin-left: 180px;
-  margin-top: 60px;
-  padding: 24px;
+    /* メイン */
+    main {
+      margin-left: 180px;
+      margin-top: 60px;
+      padding: 24px;
+    }
 
-}
-#fadeout {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: black;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
-  z-index: 9999;
-}
-#fadeout.active {
-  opacity: 1;
-  pointer-events: all;
-}
-/* 画面を覆う黒フェード */
-#fadeout {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: black;
-  opacity: 1;
-  pointer-events: all;
-  transition: opacity 0.7s ease;
-  z-index: 9999;
-}
+    /* フェード用 */
+    #fadeout {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      opacity: 1;
+      pointer-events: all;
+      transition: opacity 0.7s ease;
+      z-index: 9999;
+    }
 
-/* 非表示状態（フェードアウト後） */
-#fadeout.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-
+    #fadeout.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
