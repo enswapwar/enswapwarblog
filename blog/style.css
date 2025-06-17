@@ -1,0 +1,65 @@
+/* 全体リセット */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  font-family: "Segoe UI", sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* サイドバー */
+.sidebar {
+  width: 180px;
+  background-color: #0f0;
+  padding: 16px;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li {
+  margin-bottom: 12px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+
+/* ヘッダー（上バー） */
+header {
+  position: fixed;
+  top: 0;
+  left: 180px;
+  right: 0;
+  height: 60px;
+  background-color: #ff0;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  z-index: 1000;
+}
+
+.status-bar {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+}
+
+.status-bar li {
+  font-weight: bold;
+}
+
+/* メインエリア */
+main {
+  margin-left: 180px;
+  margin-top: 60px;
+  padding: 24px;
+}
