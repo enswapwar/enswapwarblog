@@ -1,4 +1,4 @@
-document.querySelectorAll(".sidebar nav a").forEach(link => {
+  document.querySelectorAll(".sidebar nav a").forEach(link => {
   link.addEventListener("click", e => {
     e.preventDefault();
 
