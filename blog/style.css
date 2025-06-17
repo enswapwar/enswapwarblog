@@ -85,4 +85,21 @@ main {
   margin-left: 180px;
   margin-top: 60px;
   padding: 24px;
+
 }
+#fadeout {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 9999;
+}
+#fadeout.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
