@@ -19,6 +19,11 @@ body {
   padding: 16px;
 }
 
+/* 左のリンクリスト全体に上マージン5cm */
+.sidebar nav ul {
+  margin-top: 5cm;
+}
+
 .sidebar ul {
   list-style: none;
 }
@@ -31,9 +36,18 @@ body {
   text-decoration: none;
   color: #000;
   font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+  padding: 6px 8px;
+  display: inline-block;
+  border-radius: 4px;
 }
 
-/* ヘッダー（上バー） */
+.sidebar a:hover {
+  background-color: #b0ffb0; /* 明るい緑 */
+  color: #000;
+}
+
+/* ヘッダー（ステータスバー） */
 header {
   position: fixed;
   top: 0;
@@ -51,10 +65,19 @@ header {
   list-style: none;
   display: flex;
   gap: 24px;
+  margin-left: 5cm; /* 左に5cmの余白 */
 }
 
 .status-bar li {
   font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.status-bar li:hover {
+  background-color: #fff176; /* 明るい黄色 */
+  color: #000;
 }
 
 /* メインエリア */
