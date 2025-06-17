@@ -11,6 +11,7 @@
       font-family: "Courier New", monospace;
       background-color: #121212;
       color: #f0f0f0;
+      overflow-x: hidden;
     }
     header {
       background: #1f1f1f;
@@ -63,12 +64,29 @@
       margin-bottom: 1em;
       line-height: 1.6em;
     }
+
+    /* フェードアウト画面 */
     #fadeout {
-      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    body.fade-in #fadeout {
+      opacity: 0;
     }
   </style>
 </head>
 <body>
+  <div id="fadeout"></div>
+
   <header>
     <ul class="status-bar">
       <li>勉強中</li>
@@ -102,7 +120,24 @@
     <p>なぜここが特別なんだって？現実を投げ出したいからだよ。</p>
   </main>
 
-  <div id="fadeout"></div>
-  <script src="script.js"></script>
+  <script>
+    // フェードイン
+    window.addEventListener("load", () => {
+      document.body.classList.add("fade-in");
+    });
+
+    // リンククリック時のフェードアウト（同一タブ遷移対応）
+    const anchors = document.querySelectorAll('a[href]:not([href^="javascript"])');
+    anchors.forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        const href = this.getAttribute("href");
+        document.getElementById("fadeout").style.opacity = 1;
+        setTimeout(() => {
+          window.location.href = href;
+        }, 1000);
+      });
+    });
+  </script>
 </body>
 </html>
