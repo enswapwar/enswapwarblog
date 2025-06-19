@@ -1,65 +1,11 @@
-<!DOCTYPE html>
 <html lang="ja">
 <head>
+  <link rel="icon" type="image/png" href="https://enswapwar.github.io/enswapwarblog/blog/favicon.ico">
+<link rel="icon" type="image/x-icon" href="https://enswapwar.github.io/enswapwarblog/blog/favicon.ico">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>enswapwar_blog!</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: monospace;
-      background-color: #121212;
-      color: #f0f0f0;
-    }
-    header {
-      background: #1f1f1f;
-      padding: 0.5em;
-    }
-    .status-bar {
-      display: flex;
-      flex-wrap: wrap;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .status-bar li {
-      margin-right: 1em;
-    }
-    .sidebar {
-      width: 200px;
-      background: #1a1a1a;
-      padding: 1em;
-      position: fixed;
-      top: 3em;
-      bottom: 0;
-      left: 0;
-    }
-    .sidebar nav ul {
-      list-style: none;
-      padding: 0;
-    }
-    .sidebar nav li {
-      margin-bottom: 1em;
-    }
-    .sidebar nav a {
-      color: #00ffff;
-      text-decoration: none;
-    }
-    .hidden-link {
-      display: none;
-    }
-    main {
-      margin-left: 220px;
-      padding: 2em;
-    }
-    input[type="password"] {
-      background: #222;
-      color: #fff;
-      border: 1px solid #444;
-      padding: 0.5em;
-      font-family: monospace;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
@@ -71,46 +17,23 @@
       <li>バグと格闘中</li>
     </ul>
   </header>
-
   <aside class="sidebar">
     <nav>
       <ul>
-        <li><a href="https://mikann-server.f5.si/blog/">ホーム</a></li>
+      <li><a href="https://mikann-server.f5.si/blog/">ホーム</a></li>
         <li><a href="https://mikann-server.f5.si/blog/profile.html">プロフィール</a></li>
         <li><a href="https://mikann-server.f5.si/blog/the_work.html">作品一覧</a></li>
         <li><a href="javascript:alert('coming soon!!! 6月24日に公開予定！');location.reload();">学んだこと</a></li>
-        <li><a href="javascript:alert('メールはtten-331@outlook.jpです。\n迷惑メールはおやめください、\nした場合は永久的にブロックさせていただきます。');location.reload();">email</a></li>
-        <li class="hidden-link" id="secret-link"><a href="https://mikann-server.f5.si/secret/">🔒 秘密リンク</a></li>
+        <li><a href="javascript:alert('メールはtten-331@outlook.jpです。\n迷惑メールはおやめください、\nした場合は永久的にブロックさせていただきます。');location.reload();
+">email</a></li>
       </ul>
     </nav>
-    <input type="password" id="password" placeholder="パスワードを入力">
   </aside>
-
   <main>
     <h1>welcome to mikann!enswapwar_blog!!!!</h1>
     <p>これは僕のブログ。JSやHTMLで遊んだり、色々好き勝手やるぞ。</p>
   </main>
-
-  <script>
-    // SHA-256ハッシュ関数
-    async function sha256(text) {
-      const buffer = new TextEncoder().encode(text);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    const input = document.getElementById('password');
-    const secretLink = document.getElementById('secret-link');
-
-    input.addEventListener('input', async () => {
-      const hashed = await sha256(input.value);
-      if (hashed === 'f96b243263eaf72ae613f8c9f873972961de9727ebd69e78c3759626e32c4447') {
-        secretLink.style.display = 'list-item';
-      } else {
-        secretLink.style.display = 'none';
-      }
-    });
-  </script>
+  <div id="fadeout"></div>
+  <script src="script.js"></script>
 </body>
 </html>
