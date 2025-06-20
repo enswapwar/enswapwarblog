@@ -66,7 +66,7 @@
 
     const passwordInput = document.getElementById('passwordInput');
     const secretLink = document.getElementById('secretLink');
-    const correctHash = 'f96b243263eaf72ae613f8c9f873972961de9727ebd69e78c3759626e32c4447'; // "enswapwarpassword"
+    const correctHash = 'f96b243263eaf72ae613f8c9f873972961de9727ebd69e78c3759626e32c4447';
 
     passwordInput.addEventListener('input', async () => {
       const hash = await sha256(passwordInput.value);
