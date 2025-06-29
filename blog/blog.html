@@ -1,1 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <link rel="icon" type="image/png" href="https://enswapwar.github.io/enswapwarblog/blog/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="https://enswapwar.github.io/enswapwarblog/blog/favicon.ico">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>enswapwar_blog!</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .blog-post {
+  display: none;
+}
+.blog-post.active {
+  display: block;
+}
+#pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+#pagination button {
+  margin: 0 4px;
+  padding: 5px 10px;
+  font-family: monospace;
+}
+    #passwordInput {
+      margin-top: 1em;
+      background: #222;
+      color: #fff;
+      border: 1px solid #444;
+      padding: 0.4em;
+      font-family: monospace;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .hidden-link {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <ul class="status-bar">
+      <li>勉強中</li>
+      <li>JSで遊んでる</li>
+      <li>Progate復習中</li>
+      <li>チャットしてる</li>
+      <li>バグと格闘中</li>
+    </ul>
+  </header>
 
+  <aside class="sidebar">
+    <nav>
+      <ul>
+        <li><a href="https://mikann-server.f5.si/blog/">ホーム</a></li>
+        <li><a href="https://mikann-server.f5.si/blog/profile.html">プロフィール</a></li>
+        <li><a href="https://mikann-server.f5.si/blog/the_work.html">作品一覧</a></li>
+        <li><a href="https://mikann-server.f5.si/blog/learned.html">学んだこと</a></li>
+        <li><a href="https://mikann-server.f5.si/blog/blog.html">ブログ！！</a></li>
+        <li><a href="javascript:alert('メールはtten-331@outlook.jpです。\n迷惑メールはおやめください、\nした場合は永久的にブロックさせていただきます。');location.reload();">email</a></li>
+        <li id="secretLink" class="hidden-link"><a href="https://mikann-server.f5.si/secret/">🔒 秘密リンク</a></li>
+      </ul>
+    </nav>
+    <input type="password" id="passwordInput" placeholder="パスワード入力">
+  </aside>
+
+  <main>
+    <div id="blog-container">
+  <div class="blog-post">test</div>
+  <div class="blog-post">test2</div>
+  <div class="blog-post">test3、<br><b>ごめんね。blog作るの遅くて。</b></div>
+  <!-- 上のclassのblog-postを追加すると増えるよ。 -->
+</div>
+<div id="pagination"></div>
+  </main>
+
+  <div id="fadeout"></div>
+  <script src="script.js"></script>
+
+  <script>
+    async function sha256(text) {
+      const buffer = new TextEncoder().encode(text);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function setCookie(name, value, days) {
+      const expires = new Date(Date.now() + days * 86400000).toUTCString();
+      document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+    }
+
+    function getCookie(name) {
+      const cookies = document.cookie.split(';');
+      for (let c of cookies) {
+        const [key, val] = c.trim().split('=');
+        if (key === name) return val;
+      }
+      return null;
+    }
+
+    const passwordInput = document.getElementById('passwordInput');
+    const secretLink = document.getElementById('secretLink');
+    const correctHash = 'f96b243263eaf72ae613f8c9f873972961de9727ebd69e78c3759626e32c4447';
+
+    // ページ読み込み時にcookieがあれば即表示
+    window.addEventListener('DOMContentLoaded', () => {
+      if (getCookie('secret') === '1') {
+        secretLink.style.display = 'list-item';
+      }
+    });
+
+    // 入力チェック + cookie保存
+    passwordInput.addEventListener('input', async () => {
+      const hash = await sha256(passwordInput.value);
+      if (hash === correctHash) {
+        setCookie('secret', '1', 30); // 有効期限30日
+        secretLink.style.display = 'list-item';
+      } else {
+        secretLink.style.display = 'none';
+      }
+    });
+    const posts = document.querySelectorAll('.blog-post');
+  const pagination = document.getElementById('pagination');
+
+  let currentPage = 0;
+
+  function showPage(index) {
+    posts.forEach((post, i) => {
+      post.classList.toggle('active', i === index);
+    });
+    currentPage = index;
+    updatePagination();
+  }
+
+  function updatePagination() {
+    pagination.innerHTML = '';
+    posts.forEach((_, i) => {
+      const btn = document.createElement('button');
+      btn.textContent = i + 1;
+      if (i === currentPage) {
+        btn.disabled = true;
+      }
+      btn.addEventListener('click', () => showPage(i));
+      pagination.appendChild(btn);
+    });
+  }
+
+  // 最初に1つ表示
+  showPage(0);
+  </script>
+</body>
+</html>
