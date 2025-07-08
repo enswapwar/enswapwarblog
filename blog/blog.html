@@ -8,35 +8,40 @@
   <title>enswapwar_blog!</title>
   <link rel="stylesheet" href="style.css">
    <style>
-     .blog-post {
-  display: none;
-}
-.blog-post.active {
-  display: block;
-}
-#pagination {
-  text-align: center;
-  margin-top: 20px;
-}
-#pagination button {
-  margin: 0 4px;
-  padding: 5px 10px;
-  font-family: monospace;
-}
-    #passwordInput {
-      margin-top: 1em;
-      background: #222;
-      color: #fff;
-      border: 1px solid #444;
-      padding: 0.4em;
-      font-family: monospace;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .hidden-link {
-      display: none;
-    }
-  </style>
+  .blog-post {
+    display: none;
+  }
+  .blog-post.active {
+    display: block;
+  }
+  #pagination {
+    text-align: center;
+    margin-top: 40px;
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  #pagination button {
+    margin: 0 4px;
+    padding: 5px 10px;
+    font-family: monospace;
+  }
+  #passwordInput {
+    margin-top: 1em;
+    background: #222;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 0.4em;
+    font-family: monospace;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .hidden-link {
+    display: none;
+  }
+</style>
 </head>
 <body>
   <header>
