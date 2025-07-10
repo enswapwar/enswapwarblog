@@ -99,13 +99,14 @@
   <div id="fadeout"></div>
   <script src="script.js"></script>
 
-  <script>
-    async function sha256(text) {
-      const buffer = new TextEncoder().encode(text);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // ==============================
+    // 1. パスワードチェック系
+    // ==============================
+    const passwordInput = document.getElementById('passwordInput');
+    const secretLink = document.getElementById('secretLink');
+    const correctHash = 'f96b243263eaf72ae613f8c9f873972961de9727ebd69e78c3759626e32c4447';
 
     function setCookie(name, value, days) {
       const expires = new Date(Date.now() + days * 86400000).toUTCString();
@@ -121,86 +122,81 @@
       return null;
     }
 
-    const passwordInput = document.getElementById('passwordInput');
-    const secretLink = document.getElementById('secretLink');
-    const correctHash = 'f96b243263eaf72ae613f8c9f873972961de9727ebd69e78c3759626e32c4447';
+    if (getCookie('secret') === '1') {
+      secretLink.style.display = 'list-item';
+    }
 
-    // ページ読み込み時にcookieがあれば即表示
-    window.addEventListener('DOMContentLoaded', () => {
-      if (getCookie('secret') === '1') {
-        secretLink.style.display = 'list-item';
-      }
-    });
-
-    // 入力チェック + cookie保存
     passwordInput.addEventListener('input', async () => {
-      const hash = await sha256(passwordInput.value);
+      const buffer = new TextEncoder().encode(passwordInput.value);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
       if (hash === correctHash) {
-        setCookie('secret', '1', 30); // 有効期限30日
+        setCookie('secret', '1', 30);
         secretLink.style.display = 'list-item';
       } else {
         secretLink.style.display = 'none';
       }
     });
+
+    // ==============================
+    // 2. ブログページ切り替え系
+    // ==============================
     const posts = document.querySelectorAll('.blog-post');
-  const pagination = document.getElementById('pagination');
+    const pagination = document.getElementById('pagination');
+    let currentPage = 0;
 
-  let currentPage = 0;
+    function showPage(index) {
+      posts.forEach((post, i) => {
+        post.classList.toggle('active', i === index);
+      });
+      currentPage = index;
+      updatePagination();
+    }
 
-  function showPage(index) {
-    posts.forEach((post, i) => {
-      post.classList.toggle('active', i === index);
-    });
-    currentPage = index;
-    updatePagination();
-  }
+    function updatePagination() {
+      pagination.innerHTML = '';
+      posts.forEach((_, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = i + 1;
+        if (i === currentPage) btn.disabled = true;
+        btn.addEventListener('click', () => showPage(i));
+        pagination.appendChild(btn);
+      });
+    }
 
-  function updatePagination() {
-    pagination.innerHTML = '';
-    posts.forEach((_, i) => {
-      const btn = document.createElement('button');
-      btn.textContent = i + 1;
-      if (i === currentPage) {
-        btn.disabled = true;
-      }
-      btn.addEventListener('click', () => showPage(i));
-      pagination.appendChild(btn);
-    });
-  }
+    if (posts.length > 0) {
+      showPage(0);
+    } else {
+      pagination.innerHTML = '<p>記事がまだないよ。</p>';
+    }
 
-  // 最初に1つ表示
-  showPage(0);
-    if (posts.length === 0) {
-  pagination.innerHTML = '<p>記事がまだないよ。</p>';
-  return;
-}
-    // 記事が0の値に参照した場合のエラー構文。
-document.addEventListener('DOMContentLoaded', () => {
-  const startDate = new Date('2025-07-07T00:00:00');
-  const timeCounter = document.getElementById('time-counter');
+    // ==============================
+    // 3. 時間＋経過日数表示
+    // ==============================
+    const startDate = new Date('2025-07-07T00:00:00');
+    const timeCounter = document.getElementById('time-counter');
 
-  function updateTimeCounter() {
-    const now = new Date();
-    const diffMs = now - startDate;
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    function updateTimeCounter() {
+      const now = new Date();
+      const diffMs = now - startDate;
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const diffYears = now.getFullYear() - startDate.getFullYear();
+      const diffMonths = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
 
-    const diffYears = now.getFullYear() - startDate.getFullYear();
-    const diffMonths = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
 
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
+      const currentTime = `${hours}:${minutes}:${seconds}`;
+      const text = `🕒 ${currentTime}<br>📅 ${diffDays}日目 / 約${diffMonths}ヶ月目 / ${diffYears}年目`;
+      timeCounter.innerHTML = text;
+    }
 
-    const currentTime = `${hours}:${minutes}:${seconds}`;
-    const text = `🕒 ${currentTime}<br>📅 ${diffDays}日目 / 約${diffMonths}ヶ月目 / ${diffYears}年目`;
-
-    timeCounter.innerHTML = text;
-  }
-
-  updateTimeCounter();
-  setInterval(updateTimeCounter, 1000);
-});
-  </script>
+    updateTimeCounter();
+    setInterval(updateTimeCounter, 1000);
+  });
+</script>
   <script src="blognumber.js"></script>
 </body>
 </html>
