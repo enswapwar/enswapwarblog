@@ -175,7 +175,9 @@
   return;
 }
     // 記事が0の値に参照した場合のエラー構文。
-      const startDate = new Date('2025-07-07T00:00:00');
+document.addEventListener('DOMContentLoaded', () => {
+  const startDate = new Date('2025-07-07T00:00:00');
+  const timeCounter = document.getElementById('time-counter');
 
   function updateTimeCounter() {
     const now = new Date();
@@ -192,11 +194,12 @@
     const currentTime = `${hours}:${minutes}:${seconds}`;
     const text = `🕒 ${currentTime}<br>📅 ${diffDays}日目 / 約${diffMonths}ヶ月目 / ${diffYears}年目`;
 
-    document.getElementById('time-counter').innerHTML = text;
+    timeCounter.innerHTML = text;
   }
 
   updateTimeCounter();
   setInterval(updateTimeCounter, 1000);
+});
   </script>
   <script src="blognumber.js"></script>
 </body>
