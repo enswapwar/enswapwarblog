@@ -8,6 +8,18 @@
   <title>enswapwar_blog!</title>
   <link rel="stylesheet" href="style.css">
    <style>
+      #time-counter {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(34, 34, 34, 0.8);
+    color: #fff;
+    padding: 8px 12px;
+    font-family: monospace;
+    border-radius: 8px;
+    font-size: 12px;
+    z-index: 999;
+  }
   .blog-post {
     display: none;
   }
@@ -44,6 +56,7 @@
 </style>
 </head>
 <body>
+  <div id="time-counter"></div>
   <header>
     <ul class="status-bar">
       <li>勉強中</li>
@@ -160,6 +173,28 @@
   return;
 }
     // 記事が0の値に参照した場合のエラー構文。
+      const startDate = new Date('2025-07-07T00:00:00');
+
+  function updateTimeCounter() {
+    const now = new Date();
+    const diffMs = now - startDate;
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    const diffYears = now.getFullYear() - startDate.getFullYear();
+    const diffMonths = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+
+    const currentTime = `${hours}:${minutes}:${seconds}`;
+    const text = `🕒 ${currentTime}<br>📅 ${diffDays}日目 / 約${diffMonths}ヶ月目 / ${diffYears}年目`;
+
+    document.getElementById('time-counter').innerHTML = text;
+  }
+
+  updateTimeCounter();
+  setInterval(updateTimeCounter, 1000);
   </script>
   <script src="blognumber.js"></script>
 </body>
