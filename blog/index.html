@@ -77,72 +77,73 @@
   <script src="script.js"></script>
 
   <script>
-<script>
-  async function sha256(text) {
-    const buffer = new TextEncoder().encode(text);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  }
-
-  function setCookie(name, value, days) {
-    const expires = new Date(Date.now() + days * 86400000).toUTCString();
-    document.cookie = `${name}=${value}; expires=${expires}; path=/`;
-  }
-
-  function getCookie(name) {
-    const cookies = document.cookie.split(';');
-    for (let c of cookies) {
-      const [key, val] = c.trim().split('=');
-      if (key === name) return val;
+    async function sha256(text) {
+      const buffer = new TextEncoder().encode(text);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
-    return null;
-  }
 
-  function updateTimeCounter() {
-    const startDate = new Date('2025-07-07T00:00:00');
-    const timeCounter = document.getElementById('time-counter');
-    const now = new Date();
-    const diffMs = now - startDate;
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const diffYears = now.getFullYear() - startDate.getFullYear();
-    const diffMonths = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+    function setCookie(name, value, days) {
+      const expires = new Date(Date.now() + days * 86400000).toUTCString();
+      document.cookie = ${name}=${value}; expires=${expires}; path=/;
+    }
 
-    const year = now.getFullYear();
-    const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const day = now.getDate().toString().padStart(2, '0');
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
+    function getCookie(name) {
+      const cookies = document.cookie.split(';');
+      for (let c of cookies) {
+        const [key, val] = c.trim().split('=');
+        if (key === name) return val;
+      }
+      return null;
+    }
 
-    const currentTime = `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
-    const text = `現在時刻🕒 ${currentTime}<br>blog初めて📅 ${diffDays}日目 / 約${diffMonths}ヶ月目 / ${diffYears}年目`;
-    timeCounter.innerHTML = text;
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('passwordInput');
     const secretLink = document.getElementById('secretLink');
     const correctHash = 'f96b243263eaf72ae613f8c9f873972961de9727ebd69e78c3759626e32c4447';
 
-    if (getCookie('secret') === '1') {
-      secretLink.style.display = 'list-item';
-    }
+    // ページ読み込み時にcookieがあれば即表示
+    window.addEventListener('DOMContentLoaded', () => {
+      if (getCookie('secret') === '1') {
+        secretLink.style.display = 'list-item';
+      }
+    const startDate = new Date('2025-07-07T00:00:00');
+const timeCounter = document.getElementById('time-counter');
 
+function updateTimeCounter() {
+  const now = new Date();
+  const diffMs = now - startDate;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const diffYears = now.getFullYear() - startDate.getFullYear();
+  const diffMonths = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+
+  const year = now.getFullYear();
+  const month = (now.getMonth() + 1).toString().padStart(2, '0');
+  const day = now.getDate().toString().padStart(2, '0');
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+
+  const currentTime = ${year}年${month}月${day}日 ${hours}:${minutes}:${seconds};
+  const text = 現在時刻🕒 ${currentTime}<br>blog初めて📅 ${diffDays}日目 / 約${diffMonths}ヶ月目 / ${diffYears}年目;
+
+  timeCounter.innerHTML = text;
+}
+
+updateTimeCounter();
+setInterval(updateTimeCounter, 1000);
+});
+
+    // 入力チェック + cookie保存
     passwordInput.addEventListener('input', async () => {
       const hash = await sha256(passwordInput.value);
       if (hash === correctHash) {
-        setCookie('secret', '1', 30);
+        setCookie('secret', '1', 30); // 有効期限30日
         secretLink.style.display = 'list-item';
       } else {
         secretLink.style.display = 'none';
       }
     });
-
-    updateTimeCounter();
-    setInterval(updateTimeCounter, 1000);
-  });
-</script>
   </script>
 </body>
 </html>
