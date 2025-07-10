@@ -76,17 +76,18 @@
   <div id="fadeout"></div>
   <script src="script.js"></script>
 
-  <script>
-    async function sha256(text) {
-      const buffer = new TextEncoder().encode(text);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // ==============================
+    // 1. パスワードチェック系
+    // ==============================
+    const passwordInput = document.getElementById('passwordInput');
+    const secretLink = document.getElementById('secretLink');
+    const correctHash = 'f96b243263eaf72ae613f8c9f873972961de9727ebd69e78c3759626e32c4447';
 
     function setCookie(name, value, days) {
       const expires = new Date(Date.now() + days * 86400000).toUTCString();
-      document.cookie = ${name}=${value}; expires=${expires}; path=/;
+      document.cookie = `${name}=${value}; expires=${expires}; path=/`;
     }
 
     function getCookie(name) {
@@ -98,17 +99,27 @@
       return null;
     }
 
-    const passwordInput = document.getElementById('passwordInput');
-    const secretLink = document.getElementById('secretLink');
-    const correctHash = 'f96b243263eaf72ae613f8c9f873972961de9727ebd69e78c3759626e32c4447';
+    if (getCookie('secret') === '1') {
+      secretLink.style.display = 'list-item';
+    }
 
-    // ページ読み込み時にcookieがあれば即表示
-    window.addEventListener('DOMContentLoaded', () => {
-      if (getCookie('secret') === '1') {
+    passwordInput.addEventListener('input', async () => {
+      const buffer = new TextEncoder().encode(passwordInput.value);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      if (hash === correctHash) {
+        setCookie('secret', '1', 30);
         secretLink.style.display = 'list-item';
+      } else {
+        secretLink.style.display = 'none';
       }
+    });
+    // ==============================
+    // 2. 時間＋経過日数表示
+    // ==============================
     const startDate = new Date('2025-07-07T00:00:00');
-const timeCounter = document.getElementById('time-counter');
+    const timeCounter = document.getElementById('time-counter');
 
 function updateTimeCounter() {
   const now = new Date();
@@ -124,26 +135,14 @@ function updateTimeCounter() {
   const minutes = now.getMinutes().toString().padStart(2, '0');
   const seconds = now.getSeconds().toString().padStart(2, '0');
 
-  const currentTime = ${year}年${month}月${day}日 ${hours}:${minutes}:${seconds};
-  const text = 現在時刻🕒 ${currentTime}<br>blog初めて📅 ${diffDays}日目 / 約${diffMonths}ヶ月目 / ${diffYears}年目;
-
+  const currentTime = `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
+  const text = `現在時刻🕒 ${currentTime}<br>blog初めて📅 ${diffDays}日目 / 約${diffMonths}ヶ月目 / ${diffYears}年目`;
   timeCounter.innerHTML = text;
 }
-
-updateTimeCounter();
-setInterval(updateTimeCounter, 1000);
-});
-
-    // 入力チェック + cookie保存
-    passwordInput.addEventListener('input', async () => {
-      const hash = await sha256(passwordInput.value);
-      if (hash === correctHash) {
-        setCookie('secret', '1', 30); // 有効期限30日
-        secretLink.style.display = 'list-item';
-      } else {
-        secretLink.style.display = 'none';
-      }
-    });
+    updateTimeCounter();
+    setInterval(updateTimeCounter, 1000);
+  });
+</script>
   </script>
 </body>
 </html>
