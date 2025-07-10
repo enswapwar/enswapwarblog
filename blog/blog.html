@@ -177,22 +177,24 @@
     const startDate = new Date('2025-07-07T00:00:00');
     const timeCounter = document.getElementById('time-counter');
 
-    function updateTimeCounter() {
-      const now = new Date();
-      const diffMs = now - startDate;
-      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-      const diffYears = now.getFullYear() - startDate.getFullYear();
-      const diffMonths = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+function updateTimeCounter() {
+  const now = new Date();
+  const diffMs = now - startDate;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const diffYears = now.getFullYear() - startDate.getFullYear();
+  const diffMonths = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
 
-      const hours = now.getHours().toString().padStart(2, '0');
-      const minutes = now.getMinutes().toString().padStart(2, '0');
-      const seconds = now.getSeconds().toString().padStart(2, '0');
+  const year = now.getFullYear();
+  const month = (now.getMonth() + 1).toString().padStart(2, '0');
+  const day = now.getDate().toString().padStart(2, '0');
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
 
-      const currentTime = `${hours}:${minutes}:${seconds}`;
-      const text = `🕒 ${currentTime}<br>📅 ${diffDays}日目 / 約${diffMonths}ヶ月目 / ${diffYears}年目`;
-      timeCounter.innerHTML = text;
-    }
-
+  const currentTime = `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
+  const text = `現在時刻🕒 ${currentTime}<br>blog初めて📅 ${diffDays}日目 / 約${diffMonths}ヶ月目 / ${diffYears}年目`;
+  timeCounter.innerHTML = text;
+}
     updateTimeCounter();
     setInterval(updateTimeCounter, 1000);
   });
