@@ -1,39 +1,200 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <!-- こんなことして秘密を見つけるのかい？秘密はなにもないよ。それが自分の秘密だから -->
   <link rel="icon" type="image/png" href="https://blog.mikann-server.f5.si/blog/favicon.ico">
   <link rel="icon" type="image/x-icon" href="https://blog.mikann-server.f5.si/blog/favicon.ico">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>enswapwar_blog!</title>
   <link rel="stylesheet" href="blog/style.css">
+   <style>
+#time-counter {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(34, 34, 34, 0.9);
+  color: #fff;
+  padding: 8px 12px;
+  font-family: monospace;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  z-index: 9999; /* ← 最前面に固定、これが重要 */
+  min-width: 140px; /* ← 見えるように */
+}
+  .himitu{
+    text-decoration: none;
+    color: black;
+  }
+  .blog-post {
+    display: none;
+  }
+  .blog-post.active {
+    display: block;
+  }
+  #pagination {
+    text-align: center;
+    margin-top: 40px;
+    position: fixed;
+    left: 50%;
+    bottom: 300px;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  #pagination button {
+    margin: 0 4px;
+    padding: 5px 10px;
+    font-family: monospace;
+  }
+  #passwordInput {
+    margin-top: 1em;
+    background: #222;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 0.4em;
+    font-family: monospace;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .hidden-link {
+    display: none;
+  }
+</style>
 </head>
 <body>
   <div id="time-counter"></div>
   <header>
     <ul class="status-bar">
+      <!-- 上側に表示される一覧 -->
       <li>勉強中</li>
-      <li>JSで遊んでる</li>
+      <li><a class="himitu" href="javascript:alert('パスワード入力のところは\n enswapwarpassword\n 行けるよくみつけれたな');location.reload();">JSで遊んでる</a></li>
       <li>Progate復習中</li>
       <li>チャットしてる</li>
       <li>バグと格闘中</li>
     </ul>
   </header>
 
-  <aside class="sidebar">
-  </aside>
 
   <main>
-    <h1>URL集〜</h1>
-    <p>みかんのユーザーURLとかはるらしいよ、クソUIなのは許して、多分そのうち治る</p>
-    <a href="https://www.nicovideo.jp/user/117805787">ニコニコ!(不定期)</a>
-    <a href="https://note.com/enswapwar_urler">note!</a>
-    <a href="https://github.com/enswapwar/">github!</a>
-    <a href="https://www.youtube.com/@mikanenswapwar">Youtube!</a>
-    <a href="https://mikann-server.f5.si/">チャットサイト!</a>
+    <h1>welcome</h1>
+    <p>URL置き場〜</p>
+    <p>多分なんかみかんが作ったやつのURLを貼るとか？</p>
+    <div id="blog-container">
+      <div class="blog-post">ブログ！まずはここから！<br><a href="https://blog.mikann-server.f5.si/blog/">クリック！</a></div>
+      <div class="blog-post">note！日常的なこと満載！<br><a href="https://note.com/enswapwar_urler">クリック！</a></div>
+      <div class="blog-post">ニコニコ！不定期に投稿される動画や不定期に始まる生放送！タイミングを見逃さないで！<br><a href="https://www.nicovideo.jp/user/117805787">クリック！</a></div> 
+      <div class="blog-post">自作チャット！renderで構築されてるまじでうんちな自作チャット！荒らし放題！？<br><a href="https://mikann-server.f5.si/">クリック！</a></div>
+      <div class="blog-post">switchペイローダー！switchのCFWに実行するペイロードを日本語化！RCMモードで実行するだけ！<br><a href="https://enswapwar.github.io/web-cfw-loader/">クリック！</a></div>
+<!-- 上のclassのblog-postを追加すると増えるよ。1番上じゃなかったら一番にならないよ -->
+</div>
+<div id="pagination"></div>
   </main>
 
+      
   <div id="fadeout"></div>
   <script src="blog/script.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // ==============================
+    // 1. パスワードチェック系
+    // ==============================
+    const passwordInput = document.getElementById('passwordInput');
+    const secretLink = document.getElementById('secretLink');
+    const correctHash = 'f96b243263eaf72ae613f8c9f873972961de9727ebd69e78c3759626e32c4447';
+
+    function setCookie(name, value, days) {
+      const expires = new Date(Date.now() + days * 86400000).toUTCString();
+      document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+    }
+
+    function getCookie(name) {
+      const cookies = document.cookie.split(';');
+      for (let c of cookies) {
+        const [key, val] = c.trim().split('=');
+        if (key === name) return val;
+      }
+      return null;
+    }
+
+    if (getCookie('secret') === '1') {
+      secretLink.style.display = 'list-item';
+    }
+
+    passwordInput.addEventListener('input', async () => {
+      const buffer = new TextEncoder().encode(passwordInput.value);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      if (hash === correctHash) {
+        setCookie('secret', '1', 30);
+        secretLink.style.display = 'list-item';
+      } else {
+        secretLink.style.display = 'none';
+      }
+    });
+
+    // ==============================
+    // 2. ブログページ切り替え系
+    // ==============================
+    const posts = document.querySelectorAll('.blog-post');
+    const pagination = document.getElementById('pagination');
+    let currentPage = 0;
+
+    function showPage(index) {
+      posts.forEach((post, i) => {
+        post.classList.toggle('active', i === index);
+      });
+      currentPage = index;
+      updatePagination();
+    }
+
+    function updatePagination() {
+      pagination.innerHTML = '';
+      posts.forEach((_, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = i + 1;
+        if (i === currentPage) btn.disabled = true;
+        btn.addEventListener('click', () => showPage(i));
+        pagination.appendChild(btn);
+      });
+    }
+
+    if (posts.length > 0) {
+      showPage(0);
+    } else {
+      pagination.innerHTML = '<p>記事がまだないよ。</p>';
+    }
+
+    // ==============================
+    // 3. 時間＋経過日数表示
+    // ==============================
+    const startDate = new Date('2025-07-07T00:00:00');
+    const timeCounter = document.getElementById('time-counter');
+
+function updateTimeCounter() {
+  const now = new Date();
+  const diffMs = now - startDate;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const diffYears = now.getFullYear() - startDate.getFullYear();
+  const diffMonths = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+
+  const year = now.getFullYear();
+  const month = (now.getMonth() + 1).toString().padStart(2, '0');
+  const day = now.getDate().toString().padStart(2, '0');
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+
+  const currentTime = `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
+  const text = `現在時刻🕒 ${currentTime}<br>blog初めて📅 ${diffDays}日目 / 約${diffMonths}ヶ月目 / ${diffYears}年目`;
+  timeCounter.innerHTML = text;
+}
+    updateTimeCounter();
+    setInterval(updateTimeCounter, 1000);
+  });
+</script>
+  <script src="blog/blognumber.js"></script>
 </body>
 </html>
