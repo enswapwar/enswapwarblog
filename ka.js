@@ -1,0 +1,1 @@
+javascript:(()=>{document.title="ホーム - Classroom";document.querySelectorAll("link[rel*='icon']").forEach(e=>e.remove());const icon=document.createElement("link");icon.rel="icon";icon.type="image/png";icon.href="https://www.gstatic.com/classroom/ic_product_classroom_144.png";document.head.appendChild(icon);})();
